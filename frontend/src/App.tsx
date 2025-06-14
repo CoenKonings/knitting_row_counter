@@ -5,7 +5,7 @@ function App() {
   return (
     <>
       <h1>Rowcounter</h1>
-      <Counter />
+      <Counter maxCount={8} action="increase" />
     </>
   )
 }
