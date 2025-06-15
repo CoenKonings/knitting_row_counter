@@ -1,12 +1,10 @@
+import { useState } from "react";
+import React from "react";
+
 interface ActionProps {
   totalCount: number;
   maxCount: number;
   actionName: string;
-}
-
-interface ActionFormData {
-  name: string;
-  rowcount: number;
 }
 
 export function Action({ totalCount, maxCount, actionName }: ActionProps) {
@@ -24,17 +22,43 @@ export function Action({ totalCount, maxCount, actionName }: ActionProps) {
 }
 
 export function AddAction() {
-  const addActionHandler = ({ name, rowcount }: ActionFormData) => {
-    console.log(name);
-    console.log(rowcount);
+  const [actionName, setActionName] = useState("");
+  const [actionCount, setActionCount] = useState(0);
+  const [actionCountInput, setActionCountInput] = useState("");
+
+  const handleRowcountChange = (rowcountInput: string) => {
+    rowcountInput = rowcountInput.replace(/\D/g,'');
+    let rowcount: number = parseInt(rowcountInput);
+    rowcount = isNaN(rowcount) ? 0 : rowcount;
+    setActionCount(rowcount);
+
+    if (rowcountInput === "") {
+      setActionCountInput("");
+    } else {
+      setActionCountInput(rowcount.toString());
+    }
+
   }
 
   return <>
-    <h2 className="actionFormHeader">Add Action:</h2>
-    <form action={addActionHandler}>
-      <input type="text" name="name" id="action-name-input" placeholder="Action name" required />
-      <input type="number" name="rowcount" id="action-rowcount-input" placeholder="Number of rows" required />
-      <input type="submit" value="create action" />
-    </form>
+    <h2 className="add-action-form-header">Add Action:</h2>
+    <div className="add-action-form">
+      <input
+        type="text"
+        name="name"
+        id="add-action-name-input"
+        placeholder="Name"
+        value={actionName}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setActionName(e.target.value)}
+      />
+      <input
+        type="text"
+        name="action-rowcount"
+        id="add-action-rowcount-input"
+        placeholder="Number of rows"
+        value={actionCountInput}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleRowcountChange(e.target.value)}
+      />
+    </div>
   </>
 }
