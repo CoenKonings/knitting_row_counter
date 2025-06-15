@@ -42,7 +42,7 @@ export function Action({ id, totalCount, startCount, maxCount, actionName, numIt
  * The AddAction component functions as a form that allows the user to add new
  * actions.
  */
-export function AddAction({ addAction }: AddActionProps) {
+export function AddActionForm({ addAction }: AddActionProps) {
   const [actionName, setActionName] = useState("");
   const [actionCount, setActionCount] = useState(0);
   const [actionCountInput, setActionCountInput] = useState("");
