@@ -1,53 +1,33 @@
 import { useState } from 'react'
+import Action from './Action.tsx';
 
-interface CounterProps {
-  maxCount: number;
-  action: string;
-}
-
-function Counter({ maxCount, action }: CounterProps) {
+function Counter() {
   const [count, setCount] = useState(0);
-  const [numCycles, setNumCycles] = useState(0);
 
   const incrementCount = () => {
-    let newCount: number = count + 1;
-
-    if (newCount % maxCount == 0) {
-      newCount %= maxCount;
-      setNumCycles(numCycles + 1)
-    }
-
-    setCount(newCount);
+    setCount(count + 1);
   };
 
   const decrementCount = () => {
-    let newCount: number = count - 1;
-
-    if (newCount < 0 && numCycles > 0) {
-      setNumCycles(numCycles - 1);
-      newCount = maxCount - 1;
-    } else if (newCount < 0) {
-      newCount = 0;
-    }
-
-    setCount(newCount);
+    setCount(count - 1);
   };
 
   return (
     <>
       <div>
-        {action} number: {numCycles}
+        <button onClick={decrementCount}>
+          -
+        </button>
+
+        <span>{count}</span>
+
+        <button onClick={incrementCount}>
+          +
+        </button>
       </div>
-
-      <button onClick={decrementCount}>
-        -
-      </button>
-
-      <span>{count}</span>
-
-      <button onClick={incrementCount}>
-        +
-      </button>
+      <div>
+        <Action totalCount={count} maxCount={8} actionName='increase' />
+      </div>
     </>
   )
 }
