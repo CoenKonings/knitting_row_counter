@@ -1,0 +1,12 @@
+.add-action-form-header {
+  font-size: 1.3rem;
+  margin: 5px 3px 0;
+}
+
+.add-action-form {
+  width: 100%;
+  display: grid;
+  grid-template-rows: 0.5fr 0.5fr max-content;
+  margin-bottom: 10px;
+  gap: 2px;
+}
