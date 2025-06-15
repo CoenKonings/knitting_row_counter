@@ -28,9 +28,14 @@ export function Counter() {
     setCount((prevcount) => (prevcount - 1 >= 0 ? prevcount - 1 : prevcount));
   };
 
-  const addAction = (actionName: string, actionCount: number, numIterations: number) => {
-    setActions([...actions, { name: actionName, count: actionCount, startCount: count, numIterations: numIterations }])
-  };
+  const addAction = useCallback((actionName: string, actionCount: number, numIterations: number) => {
+    setActions([...actions, {
+      name: actionName,
+      count: actionCount,
+      startCount: count,
+      numIterations: numIterations
+    }]);
+  }, [actions]);
 
   const removeAction = useCallback((index: number) => {
     let newActions: ActionObj[] = [...actions];
