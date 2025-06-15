@@ -15,6 +15,10 @@ interface AddActionProps {
   addAction(actionName: string, actionCount: number): void;
 }
 
+/**
+ * The Action component is used to track actions that should be performed every
+ * x rows, showing a countdown (in rows) to moment it should be performed.
+ */
 export function Action({ id, totalCount, startCount, maxCount, actionName, removeAction }: ActionProps) {
   let numCycles: number = Math.floor((totalCount - startCount) / maxCount);
   let rowsUntilAction: number = maxCount - (totalCount - startCount) % maxCount;
@@ -27,11 +31,20 @@ export function Action({ id, totalCount, startCount, maxCount, actionName, remov
   </>
 }
 
+/**
+ * The AddAction component functions as a form that allows the user to add new
+ * actions.
+ */
 export function AddAction({ addAction }: AddActionProps) {
   const [actionName, setActionName] = useState("");
   const [actionCount, setActionCount] = useState(0);
   const [actionCountInput, setActionCountInput] = useState("");
 
+  /**
+   * Handle changes in the row count input. Ignore any non-numeric input.
+   *
+   * @param rowcountInput:  (string) The value in the rowcount input element.
+   */
   const handleRowcountChange = (rowcountInput: string) => {
     rowcountInput = rowcountInput.replace(/\D/g,'');
     let rowcount: number = parseInt(rowcountInput);
@@ -45,6 +58,10 @@ export function AddAction({ addAction }: AddActionProps) {
     }
   }
 
+  /**
+   * If a name and count were entered before, add a new action via the
+   * addAction callback from the props and empty the input fields.
+   */
   const handleAddActionClick = () => {
     if (actionCount === 0 || actionName === "") {
       return;

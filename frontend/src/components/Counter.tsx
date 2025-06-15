@@ -8,6 +8,13 @@ interface ActionObj {
   startCount: number;
 }
 
+/**
+ * The Counter component handles the total row count and increment/decrement
+ * buttons.
+ *
+ * TODO: Reorganize: Counter becomes RowCounter, and a new Counter component
+ * handles the +- and count portion of this component.
+ */
 export function Counter() {
   const [count, setCount] = useState(0);
   const [actions, setActions] = useState<ActionObj[]>([]);
