@@ -1,5 +1,5 @@
 import './Action.css';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import React from "react";
 
 interface ActionProps {
@@ -8,20 +8,27 @@ interface ActionProps {
   startCount: number;
   maxCount: number;
   actionName: string;
+  numIterations: number;
   removeAction(index: number): void;
 }
 
 interface AddActionProps {
-  addAction(actionName: string, actionCount: number): void;
+  addAction(actionName: string, actionCount: number, numIterations?: number): void;
 }
 
 /**
  * The Action component is used to track actions that should be performed every
  * x rows, showing a countdown (in rows) to moment it should be performed.
  */
-export function Action({ id, totalCount, startCount, maxCount, actionName, removeAction }: ActionProps) {
+export function Action({ id, totalCount, startCount, maxCount, actionName, numIterations, removeAction }: ActionProps) {
   let numCycles: number = Math.floor((totalCount - startCount) / maxCount);
   let rowsUntilAction: number = maxCount - (totalCount - startCount) % maxCount;
+
+  useEffect(() => {
+    if (numIterations && numCycles === numIterations) {
+      removeAction(id);
+    }
+  });
 
   return <>
     <div className='action'>
@@ -39,6 +46,8 @@ export function AddAction({ addAction }: AddActionProps) {
   const [actionName, setActionName] = useState("");
   const [actionCount, setActionCount] = useState(0);
   const [actionCountInput, setActionCountInput] = useState("");
+  const [actionIterations, setActionIterations] = useState(0);
+  const [actionIterationsInput, setActionIterationsInput] = useState("");
 
   /**
    * Handle changes in the row count input. Ignore any non-numeric input.
@@ -50,13 +59,16 @@ export function AddAction({ addAction }: AddActionProps) {
     let rowcount: number = parseInt(rowcountInput);
     rowcount = isNaN(rowcount) ? 0 : rowcount;
     setActionCount(rowcount);
+    setActionCountInput(rowcountInput === "" ? "" : rowcount.toString());
+  };
 
-    if (rowcountInput === "") {
-      setActionCountInput("");
-    } else {
-      setActionCountInput(rowcount.toString());
-    }
-  }
+  const handleIterationsChange = (iterationsInput: string) => {
+    iterationsInput = iterationsInput.replace(/\D/g,'');
+    let iterations: number = parseInt(iterationsInput);
+    iterations = isNaN(iterations) ? 0 : iterations;
+    setActionIterations(iterations);
+    setActionIterationsInput(iterationsInput === "" ? "" : iterations.toString());
+  };
 
   /**
    * If a name and count were entered before, add a new action via the
@@ -67,11 +79,13 @@ export function AddAction({ addAction }: AddActionProps) {
       return;
     }
 
-    addAction(actionName, actionCount);
+    addAction(actionName, actionCount, actionIterations);
     setActionName("");
     setActionCount(0);
     setActionCountInput("");
-  }
+    setActionIterations(0);
+    setActionIterationsInput("");
+  };
 
   return <>
     <h2 className="add-action-form-header">Add Action:</h2>
@@ -88,9 +102,17 @@ export function AddAction({ addAction }: AddActionProps) {
         type="text"
         name="action-rowcount"
         id="add-action-rowcount-input"
-        placeholder="Number of rows"
+        placeholder="Number of rows per action"
         value={actionCountInput}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleRowcountChange(e.target.value)}
+      />
+      <input
+        type="text"
+        name="action-iterations"
+        id="add-action-iterations-input"
+        placeholder="Amount of times to perform this action"
+        value={actionIterationsInput}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleIterationsChange(e.target.value)}
       />
       <button type="submit" onClick={() => {handleAddActionClick()}}>Add action</button>
     </div>
