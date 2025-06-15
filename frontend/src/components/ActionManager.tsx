@@ -2,6 +2,7 @@ import './ActionManager.css';
 import { Action } from './Action.tsx';
 import { AddActionForm } from './AddActionForm.tsx';
 import type { ActionObj } from './RowCounter.tsx';
+import { ActionTodoList } from './ActionTodoList.tsx';
 
 interface ActionManagerProps {
   count: number;
@@ -24,7 +25,15 @@ export function ActionManager({ count, actions, addAction, removeAction }: Actio
     />
   ));
 
+  const todos = actions.filter((action) => {
+    const relativeCount: number = count - action.startCount;
+    return relativeCount % action.maxCount == 0;
+  }).map((action) => ({ name: action.name, key: action.name + count }));
+
   return <>
+    <ActionTodoList
+      todos={todos}
+    />
     <AddActionForm addAction={addAction} />
     <div className='actions'>
       <h2 className='actions-header'>Actions:</h2>
