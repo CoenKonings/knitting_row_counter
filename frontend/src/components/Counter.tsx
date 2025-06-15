@@ -1,8 +1,8 @@
 import './Counter.css'
 import { useState } from 'react'
-import Action from './Action.tsx';
+import { Action, AddAction } from './Action.tsx';
 
-function Counter() {
+export function Counter() {
   const [count, setCount] = useState(0);
 
   const incrementCount = () => {
@@ -26,11 +26,10 @@ function Counter() {
           </button>
         </div>
       </div>
+      <AddAction />
       <div className='actions'>
         <Action totalCount={count} maxCount={8} actionName='increase' />
       </div>
     </>
   )
 }
-
-export default Counter

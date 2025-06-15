@@ -4,7 +4,12 @@ interface ActionProps {
   actionName: string;
 }
 
-function Action({ totalCount, maxCount, actionName }: ActionProps) {
+interface ActionFormData {
+  name: string;
+  rowcount: number;
+}
+
+export function Action({ totalCount, maxCount, actionName }: ActionProps) {
   let numCycles: number = Math.floor(totalCount / maxCount);
   let rowsUntilAction: number = maxCount - totalCount % maxCount;
 
@@ -18,4 +23,18 @@ function Action({ totalCount, maxCount, actionName }: ActionProps) {
   </>
 }
 
-export default Action;
+export function AddAction() {
+  const addActionHandler = ({ name, rowcount }: ActionFormData) => {
+    console.log(name);
+    console.log(rowcount);
+  }
+
+  return <>
+    <h2 className="actionFormHeader">Add Action:</h2>
+    <form action={addActionHandler}>
+      <input type="text" name="name" id="action-name-input" placeholder="Action name" required />
+      <input type="number" name="rowcount" id="action-rowcount-input" placeholder="Number of rows" required />
+      <input type="submit" value="create action" />
+    </form>
+  </>
+}
