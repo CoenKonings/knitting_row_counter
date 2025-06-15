@@ -49,6 +49,9 @@ export function AddAction({ addAction }: AddActionProps) {
     }
 
     addAction(actionName, actionCount);
+    setActionName("");
+    setActionCount(0);
+    setActionCountInput("");
   }
 
   return <>
