@@ -42,6 +42,7 @@ export function Counter() {
       </div>
       <AddAction addAction={addActionCallback} />
       <div className='actions'>
+        <h2 className='actions-header'>Actions:</h2>
         { actionComponents.length ? actionComponents : "No actions added yet." }
       </div>
     </>

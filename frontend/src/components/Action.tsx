@@ -1,3 +1,4 @@
+import './Action.css';
 import { useState } from "react";
 import React from "react";
 
@@ -16,11 +17,8 @@ export function Action({ totalCount, maxCount, actionName }: ActionProps) {
   let rowsUntilAction: number = maxCount - totalCount % maxCount;
 
   return <>
-    <div>
-      <p>
-        Number of {actionName}s: {numCycles}
-      </p>
-      <p>Time until next {actionName}: {rowsUntilAction}</p>
+    <div className='action'>
+      <p>{actionName}s: {numCycles} (next in {rowsUntilAction} rows)</p>
     </div>
   </>
 }
