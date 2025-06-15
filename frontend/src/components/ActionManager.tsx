@@ -1,5 +1,7 @@
-import { Action, AddActionForm } from './Action.tsx';
-import { useState, useCallback } from 'react'
+import './ActionManager.css';
+import { Action } from './Action.tsx';
+import { AddActionForm } from './AddActionForm.tsx';
+import { useState, useCallback } from 'react';
 
 interface ActionManagerProps {
   count: number;
