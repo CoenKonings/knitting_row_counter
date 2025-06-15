@@ -20,7 +20,7 @@ export function RowCounter() {
       startCount: count,
       numIterations: numIterations
     }]);
-  }, [actions]);
+  }, [actions, count]);
 
   const removeAction = useCallback((index: number) => {
     setActions((oldActions) => {
