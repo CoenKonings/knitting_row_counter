@@ -4,6 +4,7 @@ import React from "react";
 
 interface ActionProps {
   totalCount: number;
+  startCount: number;
   maxCount: number;
   actionName: string;
 }
@@ -12,9 +13,9 @@ interface AddActionProps {
   addAction(actionName: string, actionCount: number): void;
 }
 
-export function Action({ totalCount, maxCount, actionName }: ActionProps) {
-  let numCycles: number = Math.floor(totalCount / maxCount);
-  let rowsUntilAction: number = maxCount - totalCount % maxCount;
+export function Action({ totalCount, startCount, maxCount, actionName }: ActionProps) {
+  let numCycles: number = Math.floor((totalCount - startCount) / maxCount);
+  let rowsUntilAction: number = maxCount - (totalCount - startCount) % maxCount;
 
   return <>
     <div className='action'>

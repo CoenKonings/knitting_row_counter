@@ -5,6 +5,7 @@ import { Action, AddAction } from './Action.tsx';
 interface ActionObj {
   name: string;
   count: number;
+  startCount: number;
 }
 
 export function Counter() {
@@ -22,10 +23,17 @@ export function Counter() {
   };
 
   const addActionCallback = (actionName: string, actionCount: number) => {
-    setActions([...actions, { name: actionName, count: actionCount }])
+    setActions([...actions, { name: actionName, count: actionCount, startCount: count }])
   };
 
-  const actionComponents = actions.map(action => (<Action totalCount={count} maxCount={action.count} actionName={action.name} />));
+  const actionComponents = actions.map(action => (
+    <Action
+      totalCount={count}
+      maxCount={action.count}
+      actionName={action.name}
+      startCount={action.startCount}
+    />
+  ));
 
   return (
     <>
