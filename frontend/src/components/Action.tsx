@@ -15,8 +15,8 @@ interface ActionProps {
  * x rows, showing a countdown (in rows) to moment it should be performed.
  */
 export function Action({ id, totalCount, startCount, maxCount, actionName, numIterations, removeAction }: ActionProps) {
-  let numCompleted: number = Math.floor((totalCount - startCount) / maxCount);
-  let rowsUntilAction: number = maxCount - (totalCount - startCount) % maxCount;
+  const numCompleted: number = Math.floor((totalCount - startCount) / maxCount);
+  const rowsUntilAction: number = maxCount - (totalCount - startCount) % maxCount;
 
   return <>
     <div className='action'>

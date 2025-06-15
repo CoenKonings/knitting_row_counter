@@ -27,7 +27,8 @@ export function ActionManager({ count, actions, addAction, removeAction }: Actio
 
   const todos = actions.filter((action) => {
     const relativeCount: number = count - action.startCount;
-    return relativeCount % action.maxCount == 0;
+    const numCompleted: number = Math.floor(relativeCount / action.maxCount);
+    return relativeCount % action.maxCount == 0 && numCompleted > 0;
   }).map((action) => ({ name: action.name, key: action.name + count }));
 
   return <>
