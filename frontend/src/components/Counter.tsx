@@ -2,8 +2,16 @@ import './Counter.css'
 import { useState } from 'react'
 import { Action, AddAction } from './Action.tsx';
 
+interface ActionObj {
+  name: string;
+  count: number;
+}
+
 export function Counter() {
   const [count, setCount] = useState(0);
+  const [actions, setActions] = useState<ActionObj[]>([]);
+
+  console.log(actions);
 
   const incrementCount = () => {
     setCount(count + 1);
@@ -12,6 +20,12 @@ export function Counter() {
   const decrementCount = () => {
     setCount(count - 1);
   };
+
+  const addActionCallback = (actionName: string, actionCount: number) => {
+    setActions([...actions, { name: actionName, count: actionCount }])
+  };
+
+  const actionComponents = actions.map(action => (<Action totalCount={count} maxCount={action.count} actionName={action.name} />));
 
   return (
     <>
@@ -26,9 +40,9 @@ export function Counter() {
           </button>
         </div>
       </div>
-      <AddAction />
+      <AddAction addAction={addActionCallback} />
       <div className='actions'>
-        <Action totalCount={count} maxCount={8} actionName='increase' />
+        { actionComponents.length ? actionComponents : "No actions added yet." }
       </div>
     </>
   )

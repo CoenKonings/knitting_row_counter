@@ -7,6 +7,10 @@ interface ActionProps {
   actionName: string;
 }
 
+interface AddActionProps {
+  addAction(actionName: string, actionCount: number): void;
+}
+
 export function Action({ totalCount, maxCount, actionName }: ActionProps) {
   let numCycles: number = Math.floor(totalCount / maxCount);
   let rowsUntilAction: number = maxCount - totalCount % maxCount;
@@ -21,7 +25,7 @@ export function Action({ totalCount, maxCount, actionName }: ActionProps) {
   </>
 }
 
-export function AddAction() {
+export function AddAction({ addAction }: AddActionProps) {
   const [actionName, setActionName] = useState("");
   const [actionCount, setActionCount] = useState(0);
   const [actionCountInput, setActionCountInput] = useState("");
@@ -37,7 +41,14 @@ export function AddAction() {
     } else {
       setActionCountInput(rowcount.toString());
     }
+  }
 
+  const handleAddActionClick = () => {
+    if (actionCount === 0 || actionName === "") {
+      return;
+    }
+
+    addAction(actionName, actionCount);
   }
 
   return <>
@@ -59,6 +70,7 @@ export function AddAction() {
         value={actionCountInput}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleRowcountChange(e.target.value)}
       />
+      <button type="submit" onClick={() => {handleAddActionClick()}}>Add action</button>
     </div>
   </>
 }
