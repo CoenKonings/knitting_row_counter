@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
 import './App.css'
 import { Counter } from './components/Counter.tsx'
+import { ActionManager } from './components/ActionManager.tsx';
 
 export function App() {
   const [count, setCount] = useState(0);
@@ -19,6 +20,9 @@ export function App() {
       count={count}
       incrementCount={incrementCount}
       decrementCount={decrementCount}
+    />
+    <ActionManager
+      count={count}
     />
   </>
 }
