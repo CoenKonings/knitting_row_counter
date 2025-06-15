@@ -12,8 +12,6 @@ export function Counter() {
   const [count, setCount] = useState(0);
   const [actions, setActions] = useState<ActionObj[]>([]);
 
-  console.log(actions);
-
   const incrementCount = () => {
     setCount(count + 1);
   };
@@ -26,12 +24,20 @@ export function Counter() {
     setActions([...actions, { name: actionName, count: actionCount, startCount: count }])
   };
 
-  const actionComponents = actions.map(action => (
+  const removeActionCallback = (index: number) => {
+    let newActions: ActionObj[] = [...actions];
+    newActions.splice(index, 1);
+    setActions(newActions);
+  }
+
+  const actionComponents = actions.map((action, index) => (
     <Action
+      id={index}
       totalCount={count}
       maxCount={action.count}
       actionName={action.name}
       startCount={action.startCount}
+      removeAction={removeActionCallback}
     />
   ));
 
@@ -40,12 +46,8 @@ export function Counter() {
       <div className='counter'>
         <div className='counter-count'>{count}</div>
         <div className='counter-buttons'>
-          <button onClick={incrementCount} className='increment-btn'>
-            +
-          </button>
-          <button onClick={decrementCount} className='decrement-btn'>
-            -
-          </button>
+          <button onClick={incrementCount} className='increment-btn'>+</button>
+          <button onClick={decrementCount} className='decrement-btn'>-</button>
         </div>
       </div>
       <AddAction addAction={addActionCallback} />

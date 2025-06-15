@@ -3,23 +3,26 @@ import { useState } from "react";
 import React from "react";
 
 interface ActionProps {
+  id: number;
   totalCount: number;
   startCount: number;
   maxCount: number;
   actionName: string;
+  removeAction(index: number): void;
 }
 
 interface AddActionProps {
   addAction(actionName: string, actionCount: number): void;
 }
 
-export function Action({ totalCount, startCount, maxCount, actionName }: ActionProps) {
+export function Action({ id, totalCount, startCount, maxCount, actionName, removeAction }: ActionProps) {
   let numCycles: number = Math.floor((totalCount - startCount) / maxCount);
   let rowsUntilAction: number = maxCount - (totalCount - startCount) % maxCount;
 
   return <>
     <div className='action'>
       <p>{actionName}s: {numCycles} (next in {rowsUntilAction} rows)</p>
+      <button className='remove-action-button' onClick={() => removeAction(id)}>Remove</button>
     </div>
   </>
 }
