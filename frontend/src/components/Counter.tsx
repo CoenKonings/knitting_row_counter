@@ -1,3 +1,4 @@
+import './Counter.css'
 import { useState } from 'react'
 import Action from './Action.tsx';
 
@@ -14,18 +15,18 @@ function Counter() {
 
   return (
     <>
-      <div>
-        <button onClick={decrementCount}>
-          -
-        </button>
-
-        <span>{count}</span>
-
-        <button onClick={incrementCount}>
-          +
-        </button>
+      <div className='counter'>
+        <div className='counter-count'>{count}</div>
+        <div className='counter-buttons'>
+          <button onClick={incrementCount} className='increment-btn'>
+            +
+          </button>
+          <button onClick={decrementCount} className='decrement-btn'>
+            -
+          </button>
+        </div>
       </div>
-      <div>
+      <div className='actions'>
         <Action totalCount={count} maxCount={8} actionName='increase' />
       </div>
     </>
