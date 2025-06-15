@@ -10,7 +10,7 @@ interface CounterProps {
  * The Counter component handles the total row count and increment/decrement
  * buttons.
  */
-export function Counter({count, incrementCount, decrementCount}: CounterProps) {
+export function Counter({ count, incrementCount, decrementCount }: CounterProps) {
 
   return (
     <>

@@ -1,43 +1,22 @@
 import './ActionManager.css';
 import { Action } from './Action.tsx';
 import { AddActionForm } from './AddActionForm.tsx';
-import { useState, useCallback } from 'react';
+import type { ActionObj } from './RowCounter.tsx';
 
 interface ActionManagerProps {
   count: number;
+  actions: ActionObj[];
+  addAction(actionName: string, actionCount: number, numIterations: number): void;
+  removeAction(index: number): void;
 }
 
-interface ActionObj {
-  name: string;
-  count: number;
-  startCount: number;
-  numIterations: number;
-}
-
-export function ActionManager({count}: ActionManagerProps) {
-  const [actions, setActions] = useState<ActionObj[]>([]);
-
-  const addAction = useCallback((actionName: string, actionCount: number, numIterations: number) => {
-    setActions([...actions, {
-      name: actionName,
-      count: actionCount,
-      startCount: count,
-      numIterations: numIterations
-    }]);
-  }, [actions]);
-
-  const removeAction = useCallback((index: number) => {
-    let newActions: ActionObj[] = [...actions];
-    newActions.splice(index, 1);
-    setActions(newActions);
-  }, [actions]);
-
+export function ActionManager({ count, actions, addAction, removeAction }: ActionManagerProps) {
   const actionComponents = actions.map((action, index) => (
     <Action
       key={index}
       id={index}
       totalCount={count}
-      maxCount={action.count}
+      maxCount={action.maxCount}
       actionName={action.name}
       startCount={action.startCount}
       numIterations={action.numIterations}
