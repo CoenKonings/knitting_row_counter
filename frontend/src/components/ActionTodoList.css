@@ -1,3 +1,13 @@
+.action-todo-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.action-todo, .action-todo>input {
+  list-style-type: none;
+  cursor: pointer;
+}
+
 .done {
   text-decoration: line-through;
 }
