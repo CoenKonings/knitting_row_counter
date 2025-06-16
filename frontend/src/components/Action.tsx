@@ -1,5 +1,4 @@
 import './Action.css';
-import { useEffect } from "react";
 
 interface ActionProps {
   id: number;
@@ -16,18 +15,12 @@ interface ActionProps {
  * x rows, showing a countdown (in rows) to moment it should be performed.
  */
 export function Action({ id, totalCount, startCount, maxCount, actionName, numIterations, removeAction }: ActionProps) {
-  let numCycles: number = Math.floor((totalCount - startCount) / maxCount);
-  let rowsUntilAction: number = maxCount - (totalCount - startCount) % maxCount;
-
-  useEffect(() => {
-    if (numIterations && numCycles === numIterations) {
-      removeAction(id);
-    }
-  });
+  const numCompleted: number = Math.floor((totalCount - startCount) / maxCount);
+  const rowsUntilAction: number = maxCount - (totalCount - startCount) % maxCount;
 
   return <>
     <div className='action'>
-      <p>{actionName}s: {numCycles} (next in {rowsUntilAction} rows)</p>
+      <p>{actionName}s: {numCompleted} (next in {rowsUntilAction} rows, {numIterations - numCompleted} left)</p>
       <button className='remove-action-button' onClick={() => removeAction(id)}>Remove</button>
     </div>
   </>
