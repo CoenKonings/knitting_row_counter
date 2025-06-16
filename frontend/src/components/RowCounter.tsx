@@ -30,20 +30,15 @@ export function RowCounter() {
     })
   }, [actions])
 
-  const removeCompletedActions = (newCount: number) => {
-    setActions((prevActions) => (
-      prevActions.filter((action) => {
-        const relativeCount: number = newCount - action.startCount;
-        const numCompleted: number = Math.floor(relativeCount / action.maxCount);
-        return numCompleted < action.numIterations;
-      })
-    ));
-  };
+  const visibleActions = actions.filter((action) => {
+    const relativeCount: number = count - action.startCount;
+    const numCompleted: number = Math.floor(relativeCount / action.maxCount);
+    return numCompleted < action.numIterations && numCompleted >= 0;
+  });
 
   const incrementCount = useCallback(() => {
     setCount((prevcount) => {
       const newCount: number = prevcount + 1;
-      removeCompletedActions(newCount);
       return newCount;
     });
   }, []);
@@ -60,7 +55,7 @@ export function RowCounter() {
     />
     <ActionManager
       count={count}
-      actions={actions}
+      actions={visibleActions}
       addAction={addAction}
       removeAction={removeAction}
     />
