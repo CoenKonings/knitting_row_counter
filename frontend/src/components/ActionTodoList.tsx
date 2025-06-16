@@ -19,9 +19,12 @@ export function ActionTodoList({ todos }: ActionTodoListProps) {
   ));
 
   return <>
-    <ul className="action-todo-list">
-      {todoItems}
-    </ul>
+    <section className="current-actions">
+      <h2 className='todo-list-header'>Actions this row:</h2>
+      <ul className="action-todo-list">
+        {todoItems}
+      </ul>
+    </section>
   </>
 }
 
