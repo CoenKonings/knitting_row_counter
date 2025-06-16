@@ -1,3 +1,7 @@
 FROM golang:1.24.4
 
-WORKDIR /usr/src/app
+WORKDIR /go/src/app
+COPY . .
+RUN go get .
+RUN go build -o main main.go
+CMD ["./main"]
