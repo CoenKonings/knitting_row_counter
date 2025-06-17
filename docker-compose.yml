@@ -3,7 +3,7 @@ services:
     container_name: rowcounter-backend
     build: ./backend
     ports:
-      - 3000:3000
+      - 8080:8080
     volumes:
       - ./backend:/usr/src/app
 
@@ -11,7 +11,7 @@ services:
     container_name: rowcounter-frontend
     build: ./frontend
     ports:
-      - 5173:5173
+      - 8000:5173
     volumes:
       - ./frontend:/usr/src/app
       - frontend_node_modules:/usr/src/app/node_modules

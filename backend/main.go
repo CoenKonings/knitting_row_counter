@@ -16,13 +16,14 @@ type action struct {
 var actions = []action {
 	{ID: "1", Name: "increase", CycleLength: 4, NumCycles: 7, StartCount: 3},
 	{ID: "2", Name: "change color", CycleLength: 4, NumCycles: 7, StartCount: 7},
+	// {ID: "3", Name: "test", CycleLength: 4, NumCycles: 7, StartCount: 7},
 }
 
 func main() {
 	router := gin.Default()
 	router.GET("/actions", getActions)
 
-	router.Run(":3000")
+	router.Run()
 }
 
 func getActions(context *gin.Context) {
