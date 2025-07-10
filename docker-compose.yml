@@ -6,6 +6,24 @@ services:
       - 8080:8080
     volumes:
       - ./backend:/usr/src/app
+    networks:
+      - rowcounter-network
+    depends_on:
+      - database
+
+  database:
+    container_name: rowcounter-db
+    image: mysql:latest
+    platform: linux/x86_64
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: rowcounter_db
+      MYSQL_ROOT_PASSWORD: rowcounter_db
+    volumes:
+      - ./resources:/docker-entrypoint-initdb.d
+    networks:
+      - rowcounter-network
 
   frontend:
     container_name: rowcounter-frontend
