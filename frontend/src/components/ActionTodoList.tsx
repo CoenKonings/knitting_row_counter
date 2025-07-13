@@ -16,12 +16,15 @@ export function ActionTodoList({ todos }: ActionTodoListProps) {
       name={todo.name}
       key={todo.key}
     />
-  ))
+  ));
 
   return <>
-    <ul className="action-todo-list">
-      {todoItems}
-    </ul>
+    <section className="current-actions">
+      <h2 className='todo-list-header'>Actions this row:</h2>
+      <ul className="action-todo-list">
+        {todoItems}
+      </ul>
+    </section>
   </>
 }
 
@@ -33,6 +36,9 @@ function ActionTodoItem({ name }: TodoObj) {
   }
 
   return <>
-    <li onClick={ () => toggleDone() } className={done ? 'action-todo done' : 'action-todo'}>{name}</li>
+    <li
+      onClick={ () => toggleDone() }
+      className={done ? 'action-todo done' : 'action-todo'}
+    ><input type="checkbox" name="done" id={name+"-done-checkbox"} checked={done} />{name}</li>
   </>
 }
