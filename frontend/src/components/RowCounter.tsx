@@ -1,6 +1,7 @@
-import { useState, useCallback } from 'react';
 import { Counter } from './Counter.tsx'
+import { useCallback } from 'react';
 import { ActionManager } from './ActionManager.tsx';
+import usePersistantState from '../persistantState.tsx';
 
 export interface ActionObj {
   name: string;
@@ -10,11 +11,11 @@ export interface ActionObj {
 }
 
 export function RowCounter() {
-  const [count, setCount] = useState(0);
-  const [actions, setActions] = useState<ActionObj[]>([]);
+  const [count, setCount] = usePersistantState("rowcount", 0);
+  const [actions, setActions] = usePersistantState<ActionObj[]>("rowcounterActions", []);
 
   const addAction = useCallback((name: string, maxCount: number, numIterations: number) => {
-    setActions((oldActions) => [...oldActions, {
+    setActions((oldActions: ActionObj[]) => [...oldActions, {
       name: name,
       maxCount: maxCount,
       startCount: count,
@@ -23,28 +24,28 @@ export function RowCounter() {
   }, [actions, count]);
 
   const removeAction = useCallback((index: number) => {
-    setActions((oldActions) => {
+    setActions((oldActions: ActionObj[]) => {
       const newActions: ActionObj[] = [...oldActions];
       newActions.splice(index, 1);
       return newActions;
     })
   }, [actions])
 
-  const visibleActions = actions.filter((action) => {
+  const visibleActions = actions.filter((action: ActionObj) => {
     const relativeCount: number = count - action.startCount;
     const numCompleted: number = Math.floor(relativeCount / action.maxCount);
     return numCompleted < action.numIterations && numCompleted >= 0;
   });
 
   const incrementCount = useCallback(() => {
-    setCount((prevcount) => {
+    setCount((prevcount: number) => {
       const newCount: number = prevcount + 1;
       return newCount;
     });
   }, []);
 
   const decrementCount = useCallback(() => {
-    setCount((prevcount) => (prevcount - 1 >= 0 ? prevcount - 1 : prevcount));
+    setCount((prevcount: number) => (prevcount - 1 >= 0 ? prevcount - 1 : prevcount));
   }, []);
 
   return <>
