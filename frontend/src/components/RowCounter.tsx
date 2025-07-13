@@ -1,5 +1,5 @@
 import { Counter } from './Counter.tsx'
-import { useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { ActionManager } from './ActionManager.tsx';
 import usePersistantState from '../persistantState.tsx';
 
@@ -8,6 +8,11 @@ export interface ActionObj {
   maxCount: number;
   startCount: number;
   numIterations: number;
+}
+
+export interface ResetButtonProps {
+  setCount(count: number): void,
+  setActions(actions: ActionObj[]): void
 }
 
 export function RowCounter() {
@@ -60,5 +65,31 @@ export function RowCounter() {
       addAction={addAction}
       removeAction={removeAction}
     />
+    <ResetButton
+      setCount={setCount}
+      setActions={setActions}
+    />
+  </>
+}
+
+function ResetButton(props: ResetButtonProps) {
+  const [resetClicked, setResetClicked] = useState(false);
+  const [timer, setTimer] = useState<number|undefined>(undefined);
+
+  const handleReset = () => {
+    if (resetClicked) {
+      props.setActions([]);
+      props.setCount(0);
+      window.clearTimeout(timer);
+      setTimer(undefined);
+      setResetClicked(false);
+    } else {
+      setResetClicked(true);
+      setTimer(window.setTimeout(() => setResetClicked(false), 2000));
+    }
+  }
+
+  return <>
+    <button onClick={handleReset}>{resetClicked ? "Really " : ""}Reset</button>
   </>
 }
