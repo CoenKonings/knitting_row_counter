@@ -1,6 +1,6 @@
 import './AddActionForm.css';
 import { useState } from "react";
-import React from "react";
+import { TextInput, SelectInput } from "./FormElements.tsx";
 
 interface AddActionFormProps {
   addAction(actionName: string, actionCount: number, startCount: number, numIterations?: number): void;
@@ -70,39 +70,38 @@ export function AddActionForm({ addAction }: AddActionFormProps) {
   return <>
     <h2 className="add-action-form-header">Add Action:</h2>
     <div className="add-action-form">
-      <input
-        type="text"
+      <TextInput
         name="name"
         id="add-action-name-input"
         placeholder="Name"
         value={actionName}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setActionName(e.target.value)}
+        onChange={setActionName}
       />
-      <input
-        type="text"
+      <TextInput
         name="action-rowcount"
         id="add-action-rowcount-input"
         placeholder="Number of rows per action"
         value={actionCountInput}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleRowcountChange(e.target.value)}
+        onChange={handleRowcountChange}
       />
-      <select
+      <SelectInput
         name="action-startcount-diff"
         id="action-startcount-diff-input"
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleStartcountChange(e.target.value)}
+        onChange={handleStartcountChange}
         value={actionStartcountDifInput}
-      >
-        <option disabled value="-1">First row to perform action</option>
-        <option value="0">Current row</option>
-        <option value={actionCount - 1}>In {actionCount - 1} rows</option>
-      </select>
-      <input
-        type="text"
+        placeholder={{value: "-1", text: "First row to perform action"}}
+        options={[
+          {value: "0", text: "Current row"},
+          {value: `${actionCount - 1}`, text:`In ${actionCount - 1} rows`}
+        ]}
+        renderElement = {actionCount - 1 > 1}
+      />
+      <TextInput
         name="action-iterations"
         id="add-action-iterations-input"
         placeholder="Amount of times to perform this action"
         value={actionIterationsInput}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleIterationsChange(e.target.value)}
+        onChange={handleIterationsChange}
       />
       <button type="submit" onClick={() => {handleAddActionClick()}}>Add action</button>
     </div>
