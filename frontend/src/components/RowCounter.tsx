@@ -47,13 +47,9 @@ export function RowCounter() {
     setCount((prevcount: number) => (prevcount - 1 >= 0 ? prevcount - 1 : prevcount));
   }, []);
 
-  const visibleActions = actions.filter((action: ActionObj) => {
-    console.log((count - action.startCount) / action.numRowsPerAction);
-    console.log(action.numIterations);
-    console.log("====");
-
-    return (count - action.startCount) / action.numRowsPerAction <= action.numIterations - 1;
-  });
+  const visibleActions = actions.filter((action: ActionObj) => (
+    (count - action.startCount) / action.numRowsPerAction <= action.numIterations - 1
+  ));
 
   return <>
     <Counter
