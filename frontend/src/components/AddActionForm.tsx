@@ -3,7 +3,7 @@ import { useState } from "react";
 import { TextInput, SelectInput } from "./FormElements.tsx";
 
 interface AddActionFormProps {
-  addAction(actionName: string, actionCount: number, startCount: number, numIterations?: number): void;
+  addAction(actionName: string, numRowsPerAction: number, startCount: number, numIterations?: number): void;
 }
 
 /**
@@ -12,8 +12,8 @@ interface AddActionFormProps {
  */
 export function AddActionForm({ addAction }: AddActionFormProps) {
   const [actionName, setActionName] = useState("");
-  const [actionCount, setActionCount] = useState(0);
-  const [actionCountInput, setActionCountInput] = useState("");
+  const [numRowsPerAction, setNumRowsPerAction] = useState(0);
+  const [numRowsPerActionInput, setNumRowsPerActionInput] = useState("");
   const [actionIterations, setActionIterations] = useState(0);
   const [actionIterationsInput, setActionIterationsInput] = useState("");
   const [actionStartcountDif, setActionStartCountDif] = useState(0);
@@ -28,8 +28,8 @@ export function AddActionForm({ addAction }: AddActionFormProps) {
     rowcountInput = rowcountInput.replace(/\D/g,'');
     let rowcount: number = parseInt(rowcountInput);
     rowcount = isNaN(rowcount) ? 0 : rowcount;
-    setActionCount(rowcount);
-    setActionCountInput(rowcountInput === "" ? "" : rowcount.toString());
+    setNumRowsPerAction(rowcount);
+    setNumRowsPerActionInput(rowcountInput === "" ? "" : rowcount.toString());
   };
 
   const handleIterationsChange = (iterationsInput: string) => {
@@ -53,14 +53,14 @@ export function AddActionForm({ addAction }: AddActionFormProps) {
    * addAction callback from the props and empty the input fields.
    */
   const handleAddActionClick = () => {
-    if (actionCount === 0 || actionName === "") {
+    if (numRowsPerAction === 0 || actionName === "") {
       return;
     }
 
-    addAction(actionName, actionCount, actionStartcountDif, actionIterations);
+    addAction(actionName, numRowsPerAction, actionStartcountDif, actionIterations);
     setActionName("");
-    setActionCount(0);
-    setActionCountInput("");
+    setNumRowsPerAction(0);
+    setNumRowsPerActionInput("");
     setActionIterations(0);
     setActionStartCountDif(0);
     setActionStartCountDifInput("-1");
@@ -81,7 +81,7 @@ export function AddActionForm({ addAction }: AddActionFormProps) {
         name="action-rowcount"
         id="add-action-rowcount-input"
         placeholder="Number of rows per action"
-        value={actionCountInput}
+        value={numRowsPerActionInput}
         onChange={handleRowcountChange}
       />
       <SelectInput
@@ -92,9 +92,9 @@ export function AddActionForm({ addAction }: AddActionFormProps) {
         placeholder={{value: "-1", text: "First row to perform action"}}
         options={[
           {value: "0", text: "Current row"},
-          {value: `${actionCount - 1}`, text:`In ${actionCount - 1} rows`}
+          {value: `${numRowsPerAction - 1}`, text:`After ${numRowsPerAction - 1} rows`}
         ]}
-        renderElement = {actionCount - 1 > 1}
+        renderElement = {numRowsPerAction - 1 > 1}
       />
       <TextInput
         name="action-iterations"

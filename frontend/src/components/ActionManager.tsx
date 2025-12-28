@@ -16,8 +16,8 @@ export function ActionManager({ count, actions, addAction, removeAction }: Actio
     <Action
       key={index}
       id={index}
-      totalCount={count}
-      maxCount={action.maxCount}
+      currentCount={count}
+      numRowsPerAction={action.numRowsPerAction}
       actionName={action.name}
       startCount={action.startCount}
       numIterations={action.numIterations}
@@ -27,8 +27,8 @@ export function ActionManager({ count, actions, addAction, removeAction }: Actio
 
   const todos = actions.filter((action) => {
     const relativeCount: number = count - action.startCount;
-    const numCompleted: number = Math.floor(relativeCount / action.maxCount) + 1;
-    return relativeCount % action.maxCount == 0 && numCompleted > 0;
+    const numCompleted: number = Math.floor(relativeCount / action.numRowsPerAction) + 1;
+    return relativeCount % action.numRowsPerAction == 0 && numCompleted > 0;
   }).map((action) => ({ name: action.name, key: action.name + count }));
 
   return <>

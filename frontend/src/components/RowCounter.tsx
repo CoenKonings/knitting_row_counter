@@ -5,7 +5,7 @@ import usePersistantState from '../persistantState.tsx';
 
 export interface ActionObj {
   name: string;
-  maxCount: number;
+  numRowsPerAction: number;
   startCount: number;
   numIterations: number;
 }
@@ -19,10 +19,10 @@ export function RowCounter() {
   const [count, setCount] = usePersistantState("rowcount", 0);
   const [actions, setActions] = usePersistantState<ActionObj[]>("rowcounterActions", []);
 
-  const addAction = useCallback((name: string, maxCount: number, startCountDif: number, numIterations: number) => {
+  const addAction = useCallback((name: string, numRowsPerAction: number, startCountDif: number, numIterations: number) => {
     setActions((oldActions: ActionObj[]) => [...oldActions, {
       name: name,
-      maxCount: maxCount,
+      numRowsPerAction: numRowsPerAction,
       startCount: count + startCountDif,
       numIterations: numIterations
     }]);
@@ -34,13 +34,7 @@ export function RowCounter() {
       newActions.splice(index, 1);
       return newActions;
     })
-  }, [actions])
-
-  const visibleActions = actions.filter((action: ActionObj) => {
-    const relativeCount: number = count - action.startCount;
-    const numCompleted: number = Math.floor(relativeCount / action.maxCount);
-    return numCompleted < action.numIterations && numCompleted >= 0;
-  });
+  }, [actions]);
 
   const incrementCount = useCallback(() => {
     setCount((prevcount: number) => {
@@ -52,6 +46,14 @@ export function RowCounter() {
   const decrementCount = useCallback(() => {
     setCount((prevcount: number) => (prevcount - 1 >= 0 ? prevcount - 1 : prevcount));
   }, []);
+
+  const visibleActions = actions.filter((action: ActionObj) => {
+    console.log((count - action.startCount) / action.numRowsPerAction);
+    console.log(action.numIterations);
+    console.log("====");
+
+    return (count - action.startCount) / action.numRowsPerAction <= action.numIterations - 1;
+  });
 
   return <>
     <Counter
