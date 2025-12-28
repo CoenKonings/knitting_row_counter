@@ -19,11 +19,11 @@ export function RowCounter() {
   const [count, setCount] = usePersistantState("rowcount", 0);
   const [actions, setActions] = usePersistantState<ActionObj[]>("rowcounterActions", []);
 
-  const addAction = useCallback((name: string, maxCount: number, numIterations: number) => {
+  const addAction = useCallback((name: string, maxCount: number, startCountDif: number, numIterations: number) => {
     setActions((oldActions: ActionObj[]) => [...oldActions, {
       name: name,
       maxCount: maxCount,
-      startCount: count,
+      startCount: count + startCountDif,
       numIterations: numIterations
     }]);
   }, [actions, count]);

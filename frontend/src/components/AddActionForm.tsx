@@ -3,7 +3,7 @@ import { useState } from "react";
 import React from "react";
 
 interface AddActionFormProps {
-  addAction(actionName: string, actionCount: number, numIterations?: number): void;
+  addAction(actionName: string, actionCount: number, startCount: number, numIterations?: number): void;
 }
 
 /**
@@ -16,6 +16,8 @@ export function AddActionForm({ addAction }: AddActionFormProps) {
   const [actionCountInput, setActionCountInput] = useState("");
   const [actionIterations, setActionIterations] = useState(0);
   const [actionIterationsInput, setActionIterationsInput] = useState("");
+  const [actionStartcountDif, setActionStartCountDif] = useState(0);
+  const [actionStartcountDifInput, setActionStartCountDifInput] = useState("-1");
 
   /**
    * Handle changes in the row count input. Ignore any non-numeric input.
@@ -38,6 +40,14 @@ export function AddActionForm({ addAction }: AddActionFormProps) {
     setActionIterationsInput(iterationsInput === "" ? "" : iterations.toString());
   };
 
+  const handleStartcountChange = (startcountInput: string) => {
+    // Remove all non-digit characters
+    startcountInput = startcountInput.replace(/\D/g, '');
+    let startcountDif: number = parseInt(startcountInput);
+    setActionStartCountDif(startcountDif < 0 ? 0 : startcountDif);
+    setActionStartCountDifInput(startcountInput);
+  };
+
   /**
    * If a name and count were entered before, add a new action via the
    * addAction callback from the props and empty the input fields.
@@ -47,11 +57,13 @@ export function AddActionForm({ addAction }: AddActionFormProps) {
       return;
     }
 
-    addAction(actionName, actionCount, actionIterations);
+    addAction(actionName, actionCount, actionStartcountDif, actionIterations);
     setActionName("");
     setActionCount(0);
     setActionCountInput("");
     setActionIterations(0);
+    setActionStartCountDif(0);
+    setActionStartCountDifInput("-1");
     setActionIterationsInput("");
   };
 
@@ -74,6 +86,16 @@ export function AddActionForm({ addAction }: AddActionFormProps) {
         value={actionCountInput}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleRowcountChange(e.target.value)}
       />
+      <select
+        name="action-startcount-diff"
+        id="action-startcount-diff-input"
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleStartcountChange(e.target.value)}
+        value={actionStartcountDifInput}
+      >
+        <option disabled value="-1">First row to perform action</option>
+        <option value="0">Current row</option>
+        <option value={actionCount - 1}>In {actionCount - 1} rows</option>
+      </select>
       <input
         type="text"
         name="action-iterations"

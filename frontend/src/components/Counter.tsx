@@ -11,7 +11,6 @@ interface CounterProps {
  * buttons.
  */
 export function Counter({ count, incrementCount, decrementCount }: CounterProps) {
-
   return (
     <>
       <div className='counter'>
@@ -21,7 +20,6 @@ export function Counter({ count, incrementCount, decrementCount }: CounterProps)
           <button onClick={decrementCount} className='decrement-btn'>-</button>
         </div>
       </div>
-
     </>
   )
 }

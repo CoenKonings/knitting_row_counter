@@ -37,8 +37,16 @@ function ActionTodoItem({ name }: TodoObj) {
 
   return <>
     <li
-      onClick={ () => toggleDone() }
       className={done ? 'action-todo done' : 'action-todo'}
-    ><input type="checkbox" name="done" id={name+"-done-checkbox"} checked={done} />{name}</li>
+    >
+      <input
+        type="checkbox"
+        name="done"
+        id={name+"-done-checkbox"}
+        checked={done}
+        onChange={ () => toggleDone() }
+      />
+      {name}
+    </li>
   </>
 }

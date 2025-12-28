@@ -7,7 +7,7 @@ import { ActionTodoList } from './ActionTodoList.tsx';
 interface ActionManagerProps {
   count: number;
   actions: ActionObj[];
-  addAction(actionName: string, actionCount: number, numIterations: number): void;
+  addAction(actionName: string, actionCount: number, startCountDif: number, numIterations: number): void;
   removeAction(index: number): void;
 }
 
@@ -27,7 +27,7 @@ export function ActionManager({ count, actions, addAction, removeAction }: Actio
 
   const todos = actions.filter((action) => {
     const relativeCount: number = count - action.startCount;
-    const numCompleted: number = Math.floor(relativeCount / action.maxCount);
+    const numCompleted: number = Math.floor(relativeCount / action.maxCount) + 1;
     return relativeCount % action.maxCount == 0 && numCompleted > 0;
   }).map((action) => ({ name: action.name, key: action.name + count }));
 
